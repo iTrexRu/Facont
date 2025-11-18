@@ -1,0 +1,52 @@
+<div class="card">
+  <h1>Настройки пользователя</h1>
+  <p class="muted">ID пользователя сейчас всегда 1.</p>
+</div>
+
+<div class="card">
+  <h2>Основная информация</h2>
+  <div class="row">
+    <div class="col">
+      <label>ID пользователя</label>
+      <input type="text" value="1" disabled />
+    </div>
+    <div class="col">
+      <label for="set-first-name">Имя</label>
+      <input type="text" id="set-first-name" />
+    </div>
+    <div class="col">
+      <label for="set-last-name">Фамилия</label>
+      <input type="text" id="set-last-name" />
+    </div>
+  </div>
+  <div style="margin-top:10px;">
+    <label for="set-website">Ссылка на сайт</label>
+    <input type="text" id="set-website" placeholder="https://..." />
+    <div style="margin-top:8px;">
+      <button class="btn secondary" id="btn-collect-site">Собрать информацию</button>
+      <span id="collect-busy" style="display:none" class="spinner"></span>
+    </div>
+  </div>
+  <div style="margin-top:12px;">
+    <button class="btn" id="btn-save-user">Сохранить</button>
+    <span id="save-user-busy" style="display:none" class="spinner"></span>
+    <div id="save-user-status" class="facont-status"></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Информация о моей компании</h2>
+  <p class="muted">Эта информация подтягивается из базы после сценария «Собрать информацию».</p>
+  <textarea id="set-company-info" readonly></textarea>
+</div>
+
+<div class="card">
+  <h2>Мой стиль</h2>
+  <p class="muted">Здесь хранится текущий промт стиля, который будет использоваться для всех промтов.</p>
+  <textarea id="set-style-prompt"></textarea>
+  <div style="margin-top:10px;">
+    <button class="btn" id="btn-save-style">Сохранить стиль</button>
+    <span id="save-style-busy" style="display:none" class="spinner"></span>
+    <div id="save-style-status" class="facont-status"></div>
+  </div>
+</div>
