@@ -5,6 +5,115 @@
   padding: 0;
 }
 
+/* -----------------------------
+   Экран логина
+------------------------------*/
+
+.facont-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  padding: 24px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.facont-login-card {
+  width: min(480px, 100%);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  padding: 32px;
+}
+
+.facont-login-card h1 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  color: #111827;
+}
+
+.facont-login-card p {
+  margin: 0 0 20px;
+  color: #6b7280;
+}
+
+.facont-login-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.facont-login-form input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 16px;
+  box-sizing: border-box;
+  background: #f9fafb;
+}
+
+.facont-login-form input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+  background: #fff;
+}
+
+.facont-login-form .facont-field {
+  margin-bottom: 16px;
+}
+
+.facont-login-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.facont-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.facont-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 36px rgba(37, 99, 235, 0.42);
+}
+
+.facont-btn-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
+}
+
+.facont-login-error {
+  margin-top: 12px;
+  color: #b91c1c;
+  font-weight: 600;
+  min-height: 20px;
+}
+
+.facont-login-hint {
+  margin-top: 12px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
 /* каркас приложения */
 .facont-app {
   display: flex;

@@ -3,7 +3,7 @@
 ------------------------------*/
 
 const FACONT_API_URL = 'https://itrex-auto-prod.up.railway.app/webhook/d3499289-9710-47bc-bd72-8aa9ccbd1426';
-const FACONT_USER_ID = 1;
+const FACONT_USER_ID = Number(window.FACONT_USER_ID || 0);
 const FACONT_BASE_URL = (window.FACONT_BASE_URL || '').replace(/\/$/, '');
 
 /* -----------------------------
@@ -11,8 +11,12 @@ const FACONT_BASE_URL = (window.FACONT_BASE_URL || '').replace(/\/$/, '');
 ------------------------------*/
 
 // Вызов n8n backend
-async function facontCallAPI(cmd, data = {}) {
-  const payload = { cmd, userId: FACONT_USER_ID, ...data };
+async function facontCallAPI(cmd, data = {}, options = {}) {
+  const payload = { cmd, ...data };
+
+  if (!options.skipUserId) {
+    payload.userId = data.userId || FACONT_USER_ID;
+  }
 
   const res = await fetch(FACONT_API_URL, {
     method: 'POST',
@@ -55,6 +59,63 @@ async function facontLoadPartial(relativePath) {
   const html = await res.text();
   main.innerHTML = html;
   return main;
+}
+
+/* -----------------------------
+   Экран логина
+------------------------------*/
+
+function facontRedirectToApp(userId) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('id', userId);
+  window.location.href = url.toString();
+}
+
+function facontShowLoginError(message) {
+  const err = document.getElementById('facont-login-error');
+  if (err) {
+    err.textContent = message || '';
+  }
+}
+
+function facontInitLogin() {
+  const form = document.getElementById('facont-login-form');
+  if (!form) return;
+
+  const emailInput = document.getElementById('facont-login-email');
+  const passInput = document.getElementById('facont-login-password');
+  const btn = document.getElementById('facont-login-submit');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = (emailInput && emailInput.value || '').trim();
+    const password = (passInput && passInput.value) || '';
+
+    if (!email || !password) {
+      facontShowLoginError('Введите email и пароль.');
+      return;
+    }
+
+    facontShowLoginError('');
+
+    if (btn) btn.disabled = true;
+
+    try {
+      const res = await facontCallAPI('login', { email, password }, { skipUserId: true });
+      const userId = (res && res.userId) || (res && res.user && res.user.id);
+
+      if (!userId) {
+        throw new Error('Ответ сервера не содержит ID пользователя.');
+      }
+
+      facontRedirectToApp(userId);
+    } catch (err) {
+      facontShowLoginError('Ошибка: ' + (err && err.message ? err.message : err));
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  });
 }
 
 /* -----------------------------
@@ -593,6 +654,20 @@ function facontInitSettings() {
 ------------------------------*/
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Если на странице есть форма логина, инициализируем её и не грузим приложение
+  if (document.getElementById('facont-login-form')) {
+    facontInitLogin();
+    return;
+  }
+
+  if (!FACONT_USER_ID) {
+    const main = document.getElementById('facont-main');
+    if (main) {
+      main.innerHTML = '<div class="card">Не указан ID пользователя. Пожалуйста, войдите заново.</div>';
+    }
+    return;
+  }
+
   const sidebar = document.querySelector('.facont-sidebar');
   if (sidebar) {
     sidebar.addEventListener('click', (e) => {
